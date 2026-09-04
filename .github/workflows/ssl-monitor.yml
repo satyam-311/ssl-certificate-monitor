@@ -3,7 +3,6 @@ name: SSL Certificate Monitor
 on:
   schedule:
     - cron: "0 4 * * *"
-
   workflow_dispatch:
 
 jobs:
@@ -13,6 +12,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # TEMPORARY DIAGNOSTIC STEP
+      - name: Test SMTP connection
+        run: |
+          python - <<'PY'
+          import socket
+
+          host = "twigsystem.com"
+          port = 465
+
+          print(f"Testing {host}:{port}")
+
+          try:
+              sock = socket.create_connection((host, port), timeout=10)
+              print("SMTP port 465 is reachable")
+              sock.close()
+          except Exception as e:
+              print(f"SMTP port 465 is NOT reachable")
+              print(f"Error: {e}")
+              raise
+          PY
 
       - name: Check SSL certificate
         env:
