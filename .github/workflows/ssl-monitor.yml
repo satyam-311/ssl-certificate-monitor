@@ -13,7 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # TEMPORARY DIAGNOSTIC STEP
       - name: Test SMTP connection
         run: |
           python - <<'PY'
@@ -29,7 +28,7 @@ jobs:
               print("SMTP port 465 is reachable")
               sock.close()
           except Exception as e:
-              print(f"SMTP port 465 is NOT reachable")
+              print("SMTP port 465 is NOT reachable")
               print(f"Error: {e}")
               raise
           PY
